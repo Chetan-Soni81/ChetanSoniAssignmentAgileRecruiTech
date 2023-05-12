@@ -19,6 +19,7 @@ namespace ChetanSoniAssignmentAgileRecruiTech.DbModels
         public virtual DbSet<TblAttendee> TblAttendees { get; set; } = null!;
         public virtual DbSet<TblCategory> TblCategories { get; set; } = null!;
         public virtual DbSet<TblEvent> TblEvents { get; set; } = null!;
+        public virtual DbSet<TblNudge> TblNudges { get; set; } = null!;
         public virtual DbSet<TblUser> TblUsers { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -26,7 +27,7 @@ namespace ChetanSoniAssignmentAgileRecruiTech.DbModels
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=MSI\\SQLEXPRESS; Database=DeepTechAssignmentDB; Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=MSI\\SQLEXPRESS; Database=DeepTechAssignmentDB; Trusted_connection=True;");
             }
         }
 
@@ -137,6 +138,51 @@ namespace ChetanSoniAssignmentAgileRecruiTech.DbModels
                     .WithMany(p => p.TblEventSubCategoryNavigations)
                     .HasForeignKey(d => d.SubCategory)
                     .HasConstraintName("FK_tbl_events_tbl_category1");
+            });
+
+            modelBuilder.Entity<TblNudge>(entity =>
+            {
+                entity.HasKey(e => e.NudgeId)
+                    .HasName("PK__tbl_nudg__94EB703E3D5B4B16");
+
+                entity.ToTable("tbl_nudges");
+
+                entity.Property(e => e.NudgeId).HasColumnName("nudge_id");
+
+                entity.Property(e => e.Description)
+                    .HasColumnType("text")
+                    .HasColumnName("description");
+
+                entity.Property(e => e.EventId).HasColumnName("event_id");
+
+                entity.Property(e => e.Icon)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("icon");
+
+                entity.Property(e => e.Image)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("image");
+
+                entity.Property(e => e.InvitationMessage)
+                    .HasMaxLength(300)
+                    .IsUnicode(false)
+                    .HasColumnName("invitation_message");
+
+                entity.Property(e => e.Schedule)
+                    .HasColumnType("datetime")
+                    .HasColumnName("schedule");
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(60)
+                    .IsUnicode(false)
+                    .HasColumnName("title");
+
+                entity.HasOne(d => d.Event)
+                    .WithMany(p => p.TblNudges)
+                    .HasForeignKey(d => d.EventId)
+                    .HasConstraintName("FK_tbl_nudges_tbl_events");
             });
 
             modelBuilder.Entity<TblUser>(entity =>

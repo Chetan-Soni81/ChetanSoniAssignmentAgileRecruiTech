@@ -8,6 +8,7 @@ namespace ChetanSoniAssignmentAgileRecruiTech.DbModels
         public TblEvent()
         {
             TblAttendees = new HashSet<TblAttendee>();
+            TblNudges = new HashSet<TblNudge>();
         }
 
         public int EventId { get; set; }
@@ -28,5 +29,6 @@ namespace ChetanSoniAssignmentAgileRecruiTech.DbModels
         public virtual TblUser? ModeratorNavigation { get; set; }
         public virtual TblCategory? SubCategoryNavigation { get; set; }
         public virtual ICollection<TblAttendee> TblAttendees { get; set; }
+        public virtual ICollection<TblNudge> TblNudges { get; set; }
     }
 }
